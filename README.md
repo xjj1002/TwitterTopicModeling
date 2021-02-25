@@ -45,6 +45,6 @@ dotnet ef database update
 
 # Packages
 - [Microsoft EntityFrameworkCore] ()
-- [Flurl] (https://github.com/tmenier/Flurl)
-- [Json.net] (https://github.com/JamesNK/Newtonsoft.Json)
-- [Enitiy FrameWork posgeSQL libary] ()
+- [Flurl](https://github.com/tmenier/Flurl)
+- [Json.net](https://github.com/JamesNK/Newtonsoft.Json)
+- [Enitiy FrameWork posgeSQL libary]()
