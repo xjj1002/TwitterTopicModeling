@@ -47,4 +47,5 @@ dotnet ef database update
 - [Microsoft EntityFrameworkCore](https://github.com/dotnet/efcore)
 - [Flurl](https://github.com/tmenier/Flurl)
 - [Json.net](https://github.com/JamesNK/Newtonsoft.Json)
-- [Enitiy FrameWork posgeSQL libary]()
+- [Enitiy FrameWork posgeSQL libary](https://www.npgsql.org/)
+- [Swagger](https://github.com/swagger-api/swagger-ui)
