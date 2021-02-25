@@ -51,7 +51,7 @@ dotnet ef database update
 - [Swagger](https://github.com/swagger-api/swagger-ui)
 
 # Commands 
-run any of the following in the terminal of vscode
+run any of the following in the terminal of vscode in the directory of API project
 - `dotnet run`
 - `dotnet build`
 - `dotnet watch run`
