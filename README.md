@@ -49,3 +49,14 @@ dotnet ef database update
 - [Json.net](https://github.com/JamesNK/Newtonsoft.Json)
 - [Enitiy FrameWork posgeSQL libary](https://www.npgsql.org/)
 - [Swagger](https://github.com/swagger-api/swagger-ui)
+
+# Commands run API
+- `dotnet run`
+
+or 
+
+- `dotnet build`
+
+or 
+
+- `dotnet watch run`
