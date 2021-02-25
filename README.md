@@ -5,9 +5,9 @@ Twitter topic modeling API
 # Requremnts 
 Here are the Requirment to run Twitter Topic Modeling API
 - [postgreSQL](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
-- vscode(https://code.visualstudio.com/download)
-- .net 5(https://dotnet.microsoft.com/download/dotnet/5.0)
-- enitity framework CLI(https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
+- [vscode](https://code.visualstudio.com/download)
+- [.net 5](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [enitity framework CLI](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
 
 
 # Configuration 
