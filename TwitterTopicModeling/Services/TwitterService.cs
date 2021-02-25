@@ -27,15 +27,16 @@ namespace TwitterTopicModeling.Services
 
     }
 
-    public async Task<List<Tweet>> GetTwitterUserTimeline(TwitterUser twitterUser, int count)
+    public async Task<List<Tweet>> GetTweets(string ScreenName, int count)
     {
 
 
       var result = await baseUrl
       .AppendPathSegment("statuses/user_timeline.json")
+      .WithOAuthBearerToken(TwitterToken)
       .SetQueryParams(new
       {
-        twitterUser.ScreenName,
+        screen_name = ScreenName,
         count
       })
       .GetJsonAsync<List<Tweet>>();

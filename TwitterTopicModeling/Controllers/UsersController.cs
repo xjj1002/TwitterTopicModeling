@@ -37,7 +37,7 @@ namespace TwitterTopicModeling.Controllers
 
     }
 
-
+    [HttpGet]
     public async Task<User> getUser(string UserName)
     {
 

@@ -50,7 +50,6 @@ namespace TwitterTopicModeling.Controllers
     public async Task<TwitterUser> getTwitterUser(string username)
     {
 
-
       //getting the user fromt he database if it is not there sets to null
       var DatabaseUser = await TwitterContext.TwitterUsers
           .Where(x => x.ScreenName == username)
@@ -77,14 +76,12 @@ namespace TwitterTopicModeling.Controllers
         }
       }
 
-      Logger.LogInformation("Returns the user we got from the twitter API or from our database");
-
       return DatabaseUser;
 
     }
 
     [HttpGet("{userName}/tweets")]
-    public async Task<Tweet> getTweets(string userName, int count = 50)
+    public async Task<List<Tweet>> getTweets(string userName, int count = 50)
     {
 
       if (count > 100)
@@ -92,15 +89,15 @@ namespace TwitterTopicModeling.Controllers
         throw new Exception();
       }
 
-      //     var DatabaseUser = await TwitterContext.Users
-      // .Where(x => x.ScreenName == username)
-      // .FirstOrDefaultAsync();
-      //  // List<Tweet> timeline = await TwitterService.GetTwitterUserTimeline(userName, count);
+      var tweets = await TwitterService.GetTweets(userName, count);
+       var T = tweets.Select(x => new Tweet{
+          ExternalId = x.Id,
+          Text = x.Text
 
-      //     Logger.LogInformation("Returning the tweets that we got from he twitter API");
-      //    // return timeline;
+      }).ToList();
 
-      throw new NotImplementedException();
+      return T;
+
     }
   }
 
