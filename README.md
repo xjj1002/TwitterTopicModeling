@@ -2,7 +2,7 @@
 Twitter topic modeling API 
 
 
-# Requirments
+# Requirements
 Here are the Requirment to run Twitter Topic Modeling API
 - [postgreSQL](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 - [vscode](https://code.visualstudio.com/download)
