@@ -35,7 +35,10 @@ How to configure
 ```
 
 How to use Dependency Injection in Entity Framework Core 
-https://hackernoon.com/asp-net-core-how-to-use-dependency-injection-in-entity-framework-core-4388fc5c148b 
+- https://hackernoon.com/asp-net-core-how-to-use-dependency-injection-in-entity-framework-core-4388fc5c148b 
+
+How to use serilization and deserialization of json in .net 
+- https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to?pivots=dotnet-5-0#how-to-write-net-objects-as-json-serialize
 
 ## Database
 how to run migrations
