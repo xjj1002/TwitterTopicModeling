@@ -26,10 +26,7 @@ namespace TwitterTopicModeling.Controllers
   public class TwitterUsersController : ControllerBase
   {
     public ILogger<TwitterUsersController> Logger { get; }
-
-    //twitter context attribute here
     public TwitterService TwitterService { get; }
-
     public TwitterContext TwitterContext { get; }
 
 
