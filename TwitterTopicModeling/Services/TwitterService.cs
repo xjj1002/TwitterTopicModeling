@@ -5,10 +5,9 @@ namespace TwitterTopicModeling.Services
   using Flurl;
   using Flurl.Http;
   using TwitterTopicModeling.Twitter.Models;
-  using System;
-  using System.Threading;
+
   using System.Threading.Tasks;
-  using System.Collections;
+
   using System.Collections.Generic;
   using System.Linq;
 
@@ -60,6 +59,7 @@ namespace TwitterTopicModeling.Services
           })
           .GetJsonAsync<List<TwitterUser>>();
 
+        //Linq used here
       return result.FirstOrDefault();
     }
   }
