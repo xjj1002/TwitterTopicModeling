@@ -19,6 +19,7 @@ namespace TwitterTopicModeling.Controllers
     // internal
     using Services;
     using Microsoft.EntityFrameworkCore;
+    using TwitterTopicModeling.Payloads;
 
 
     [ApiController]
@@ -38,6 +39,20 @@ namespace TwitterTopicModeling.Controllers
     }
 
 
+        [HttpPost("generateReport")]
+        public async Task<Report> generateReport(ReportDTO report)
+        {
+
+            // var insertedUser = await TwitterContext.Users
+            //     .AddAsync(new User
+            //     {
+            //         userName = user.username,
+            //         password = user.password
+            //     });
+
+             await TwitterContext.SaveChangesAsync();
+             return null;
+        }
 
     }
 }
