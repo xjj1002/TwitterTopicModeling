@@ -8,6 +8,7 @@ namespace TwitterTopicModeling.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
+
     using Flurl;
     using Flurl.Http;
 
@@ -26,32 +27,51 @@ namespace TwitterTopicModeling.Controllers
     [Route("[controller]")]
     public class ReportController
     {
-        
-    public ILogger<TwitterUsersController> Logger { get; }
-    public TwitterService TwitterService { get; }
-    public TwitterContext TwitterContext { get; }
 
-    public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext)
-    {
-      Logger = logger;
-      TwitterService = twitterService;
-      TwitterContext = twitterContext;
-    }
+        public ILogger<TwitterUsersController> Logger { get; }
+        public TwitterService TwitterService { get; }
+        public TwitterContext TwitterContext { get; }
+
+        public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext)
+        {
+            Logger = logger;
+            TwitterService = twitterService;
+            TwitterContext = twitterContext;
+        }
 
 
         [HttpPost("generateReport")]
         public async Task<Report> generateReport(ReportDTO report)
         {
 
-            // var insertedUser = await TwitterContext.Users
-            //     .AddAsync(new User
-            //     {
-            //         userName = user.username,
-            //         password = user.password
-            //     });
+            int count = 50;
+            var T = await TwitterService.GetTweets(report.username, count);
 
-             await TwitterContext.SaveChangesAsync();
-             return null;
+            //need to do type conversion because the service returns a twitter model not a database model
+            var timeline = T.Select(x => new Tweet
+            {
+                ExternalId = x.Id,
+                Text = x.Text
+
+            }).ToList();
+
+            await TwitterContext.SaveChangesAsync();
+            return null;
+        }
+
+        [HttpGet("getReport/{username}")]
+        public async Task<Report> getUser(string UserName)
+        {
+
+            //ensuere twitterUser in database first
+
+
+            var Report = await TwitterContext.Report
+           .Where(x => x.TwitterUser.ScreenName == UserName)
+           .FirstOrDefaultAsync();
+
+            return Report;
+
         }
 
     }
