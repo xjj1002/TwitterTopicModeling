@@ -7,6 +7,8 @@ namespace TwitterTopicModeling.Controllers
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using System.IO;
+    using System.Globalization;
 
 
     using Flurl;
@@ -16,6 +18,7 @@ namespace TwitterTopicModeling.Controllers
     using System.Collections;
     using TwitterTopicModeling.Database;
     using TwitterTopicModeling.Database.Models;
+    using CsvHelper;
 
     // internal
     using Services;
@@ -45,18 +48,16 @@ namespace TwitterTopicModeling.Controllers
         {
 
             //check to see if user is in our database or is an existing user in the Twitter API
+             await TwitterService.getTwitterUser(report.username);
 
             //getting the timeline for the user from the twitterAPI
             int count = 50;
             var T = await TwitterService.GetTweets(report.username, count);
 
-            //need to do type conversion because the service returns a twitter model not a database model
-            var timeline = T.Select(x => new Tweet
-            {
-                ExternalId = x.Id,
-                Text = x.Text
 
-            }).ToList();
+            using var writer = new StreamWriter("C:\\Projects\\TwitterTopicModeling\\TwitterTopicModeling\\test.csv");
+            using var csv = new CsvWriter(writer,CultureInfo.InvariantCulture);
+            csv.WriteRecords(T);
 
             await TwitterContext.SaveChangesAsync();
             return null;

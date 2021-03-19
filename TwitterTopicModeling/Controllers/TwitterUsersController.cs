@@ -46,33 +46,7 @@ namespace TwitterTopicModeling.Controllers
         public async Task<TwitterUser> getTwitterUser(string username)
         {
 
-            //getting the user fromt he database if it is not there sets to null
-            var DatabaseUser = await TwitterContext.TwitterUsers
-                .Where(x => x.ScreenName == username)
-                .FirstOrDefaultAsync();
-
-            //checks to see if the user was in the database
-            //if not goes to twitter api to get it
-            if (DatabaseUser is null)
-            {
-                //if this fails what do i do?????????
-                var user = await TwitterService.getTwitterUser(username);
-
-                //if the twitter user exists then do this 
-                if (user is not null)
-                {
-                    var insertedUser = await TwitterContext.TwitterUsers
-                        .AddAsync(new TwitterUser
-                        {
-                            ScreenName = user.ScreenName
-                        });
-
-                    await TwitterContext.SaveChangesAsync();
-                    return insertedUser.Entity;
-                }
-            }
-
-            return DatabaseUser;
+            return await TwitterService.getTwitterUser(username);
 
         }
 
@@ -88,17 +62,8 @@ namespace TwitterTopicModeling.Controllers
                 throw new Exception();
             }
 
+            return await TwitterService.GetTweets(userName, count);
 
-
-            var tweets = await TwitterService.GetTweets(userName, count);
-            var T = tweets.Select(x => new Tweet
-            {
-                ExternalId = x.Id,
-                Text = x.Text
-
-            }).ToList();
-
-            return T;
 
         }
     }

@@ -10,8 +10,8 @@ using TwitterTopicModeling.Database;
 namespace TwitterTopicModeling.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20210225000152_InitalMigration")]
-    partial class InitalMigration
+    [Migration("20210319072015_inital")]
+    partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,10 +31,15 @@ namespace TwitterTopicModeling.Migrations
                     b.Property<string>("ReportName")
                         .HasColumnType("text");
 
+                    b.Property<int?>("TwitterUserId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("id");
+
+                    b.HasIndex("TwitterUserId");
 
                     b.HasIndex("UserId");
 
@@ -70,8 +75,8 @@ namespace TwitterTopicModeling.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ExternalId")
-                        .HasColumnType("integer");
+                    b.Property<long>("ExternalId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .HasColumnType("text");
@@ -93,8 +98,8 @@ namespace TwitterTopicModeling.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ExternalId")
-                        .HasColumnType("integer");
+                    b.Property<long>("ExternalId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ScreenName")
                         .HasColumnType("text");
@@ -124,9 +129,15 @@ namespace TwitterTopicModeling.Migrations
 
             modelBuilder.Entity("TwitterTopicModeling.Database.Models.Report", b =>
                 {
+                    b.HasOne("TwitterTopicModeling.Database.Models.TwitterUser", "TwitterUser")
+                        .WithMany()
+                        .HasForeignKey("TwitterUserId");
+
                     b.HasOne("TwitterTopicModeling.Database.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("TwitterUser");
 
                     b.Navigation("User");
                 });
@@ -149,15 +160,10 @@ namespace TwitterTopicModeling.Migrations
             modelBuilder.Entity("TwitterTopicModeling.Database.Models.Tweet", b =>
                 {
                     b.HasOne("TwitterTopicModeling.Database.Models.TwitterUser", "TwitterUser")
-                        .WithMany("Tweets")
+                        .WithMany()
                         .HasForeignKey("TwitterUserId");
 
                     b.Navigation("TwitterUser");
-                });
-
-            modelBuilder.Entity("TwitterTopicModeling.Database.Models.TwitterUser", b =>
-                {
-                    b.Navigation("Tweets");
                 });
 #pragma warning restore 612, 618
         }
