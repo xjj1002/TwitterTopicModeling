@@ -9,6 +9,7 @@ namespace TwitterTopicModeling.Database.Models
         public string ReportName { get; set; }
 
         public TwitterUser TwitterUser { get; set; }
+
     }
 
 }

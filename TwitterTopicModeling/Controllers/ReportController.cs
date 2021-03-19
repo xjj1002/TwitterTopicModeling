@@ -44,6 +44,9 @@ namespace TwitterTopicModeling.Controllers
         public async Task<Report> generateReport(ReportDTO report)
         {
 
+            //check to see if user is in our database or is an existing user in the Twitter API
+
+            //getting the timeline for the user from the twitterAPI
             int count = 50;
             var T = await TwitterService.GetTweets(report.username, count);
 
@@ -60,15 +63,14 @@ namespace TwitterTopicModeling.Controllers
         }
 
         [HttpGet("getReport/{username}")]
-        public async Task<Report> getUser(string UserName)
+        public async Task<Report> GetReport(string UserName)
         {
 
             //ensuere twitterUser in database first
-
-
             var Report = await TwitterContext.Report
            .Where(x => x.TwitterUser.ScreenName == UserName)
            .FirstOrDefaultAsync();
+
 
             return Report;
 
