@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TwitterTopicModeling.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace TwitterTopicModeling.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ScreenName = table.Column<string>(type: "text", nullable: true),
-                    ExternalId = table.Column<int>(type: "integer", nullable: false)
+                    ExternalId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +41,7 @@ namespace TwitterTopicModeling.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ExternalId = table.Column<int>(type: "integer", nullable: false),
+                    ExternalId = table.Column<long>(type: "bigint", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: true),
                     TwitterUserId = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -63,11 +63,18 @@ namespace TwitterTopicModeling.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: true),
-                    ReportName = table.Column<string>(type: "text", nullable: true)
+                    ReportName = table.Column<string>(type: "text", nullable: true),
+                    TwitterUserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Report", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Report_TwitterUsers_TwitterUserId",
+                        column: x => x.TwitterUserId,
+                        principalTable: "TwitterUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Report_Users_UserId",
                         column: x => x.UserId,
@@ -101,6 +108,11 @@ namespace TwitterTopicModeling.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Report_TwitterUserId",
+                table: "Report",
+                column: "TwitterUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Report_UserId",

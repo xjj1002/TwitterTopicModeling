@@ -7,8 +7,7 @@ namespace TwitterTopicModeling.Database.Models
   {
     public string ScreenName { get; set; }
     public int Id { get; set; }
-    public int ExternalId { get; set; }
+    public long ExternalId { get; set; }
 
-    public ICollection<Tweet> Tweets { get; set; }
   }
 }

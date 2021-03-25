@@ -7,6 +7,9 @@ namespace TwitterTopicModeling.Controllers
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using System.IO;
+    using System.Globalization;
+
 
     using Flurl;
     using Flurl.Http;
@@ -15,6 +18,7 @@ namespace TwitterTopicModeling.Controllers
     using System.Collections;
     using TwitterTopicModeling.Database;
     using TwitterTopicModeling.Database.Models;
+    using CsvHelper;
 
     // internal
     using Services;
@@ -26,32 +30,51 @@ namespace TwitterTopicModeling.Controllers
     [Route("[controller]")]
     public class ReportController
     {
-        
-    public ILogger<TwitterUsersController> Logger { get; }
-    public TwitterService TwitterService { get; }
-    public TwitterContext TwitterContext { get; }
 
-    public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext)
-    {
-      Logger = logger;
-      TwitterService = twitterService;
-      TwitterContext = twitterContext;
-    }
+        public ILogger<TwitterUsersController> Logger { get; }
+        public TwitterService TwitterService { get; }
+        public TwitterContext TwitterContext { get; }
+
+        public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext)
+        {
+            Logger = logger;
+            TwitterService = twitterService;
+            TwitterContext = twitterContext;
+        }
 
 
         [HttpPost("generateReport")]
         public async Task<Report> generateReport(ReportDTO report)
         {
 
-            // var insertedUser = await TwitterContext.Users
-            //     .AddAsync(new User
-            //     {
-            //         userName = user.username,
-            //         password = user.password
-            //     });
+            //check to see if user is in our database or is an existing user in the Twitter API
+             await TwitterService.getTwitterUser(report.username);
 
-             await TwitterContext.SaveChangesAsync();
-             return null;
+            //getting the timeline for the user from the twitterAPI
+            int count = 50;
+            var T = await TwitterService.GetTweets(report.username, count);
+
+
+            using var writer = new StreamWriter("C:\\Projects\\TwitterTopicModeling\\TwitterTopicModeling\\test.csv");
+            using var csv = new CsvWriter(writer,CultureInfo.InvariantCulture);
+            csv.WriteRecords(T);
+
+            await TwitterContext.SaveChangesAsync();
+            return null;
+        }
+
+        [HttpGet("getReport/{username}")]
+        public async Task<Report> GetReport(string UserName)
+        {
+
+            //ensuere twitterUser in database first
+            var Report = await TwitterContext.Report
+           .Where(x => x.TwitterUser.ScreenName == UserName)
+           .FirstOrDefaultAsync();
+
+
+            return Report;
+
         }
 
     }
