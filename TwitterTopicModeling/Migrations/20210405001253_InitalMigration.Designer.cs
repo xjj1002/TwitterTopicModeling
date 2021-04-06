@@ -10,8 +10,8 @@ using TwitterTopicModeling.Database;
 namespace TwitterTopicModeling.Migrations
 {
     [DbContext(typeof(TwitterContext))]
-    [Migration("20210319072015_inital")]
-    partial class inital
+    [Migration("20210405001253_InitalMigration")]
+    partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,8 +56,8 @@ namespace TwitterTopicModeling.Migrations
                     b.Property<int?>("Reportid")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TweetId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("TweetId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("id");
 
@@ -70,9 +70,9 @@ namespace TwitterTopicModeling.Migrations
 
             modelBuilder.Entity("TwitterTopicModeling.Database.Models.Tweet", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<long>("ExternalId")

@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TwitterTopicModeling.Migrations
 {
-    public partial class inital : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,7 @@ namespace TwitterTopicModeling.Migrations
                 name: "Tweets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ExternalId = table.Column<long>(type: "bigint", nullable: false),
                     Text = table.Column<string>(type: "text", nullable: true),
@@ -90,7 +90,7 @@ namespace TwitterTopicModeling.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Reportid = table.Column<int>(type: "integer", nullable: true),
-                    TweetId = table.Column<int>(type: "integer", nullable: true)
+                    TweetId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {

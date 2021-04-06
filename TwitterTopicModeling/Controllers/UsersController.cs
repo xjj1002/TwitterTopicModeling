@@ -67,11 +67,11 @@ namespace TwitterTopicModeling.Controllers
 
 
         [HttpPost("login")]
-        public async Task<bool> login(UserDTO user)
+        public async Task<User> login(UserDTO user)
         {
 
             return await TwitterContext.Users
-                .AnyAsync(x => 
+                .FirstOrDefaultAsync(x => 
                     x.userName == user.username && 
                     x.password == user.password
                 );

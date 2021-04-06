@@ -44,9 +44,19 @@ namespace TwitterTopicModeling.Controllers
 
 
         [HttpPost("generateReport")]
-        public async Task<Report> generateReport(ReportDTO report)
+        public async Task<Report> generateReport([FromBody] ReportDTO report, [FromHeader(Name="user-id")] int userId)
         {
 
+
+            Report currReport = new Report{
+
+                ReportName = $"{report.username}",
+                User = new User {
+                    Id = userId
+                }
+            };
+
+            
             //check to see if user is in our database or is an existing user in the Twitter API
              await TwitterService.getTwitterUser(report.username);
 
@@ -60,6 +70,7 @@ namespace TwitterTopicModeling.Controllers
             csv.WriteRecords(T);
 
             await TwitterContext.SaveChangesAsync();
+
             return null;
         }
 

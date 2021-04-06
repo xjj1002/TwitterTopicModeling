@@ -7,5 +7,6 @@ namespace TwitterTopicModeling.Database.Models
     public int id { get; set; }
     public Report Report { get; set; }
     public Tweet Tweet { get; set; }
+    public bool flag {get; set;}
   }
 }

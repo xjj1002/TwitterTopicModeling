@@ -16,54 +16,70 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TwitterTopicModeling
 {
-  using Services;
-  using Database;
+    using Services;
+    using Database;
 
-  public class Startup
-  {
-    public Startup(IConfiguration configuration)
+    public class Startup
     {
-      Configuration = configuration;
-    }
 
-    public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "insecure";
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-      services.AddTransient<TwitterService>();
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-      services.AddDbContext<TwitterContext>(options => options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+        public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<TwitterService>();
 
-      services.AddControllers();
-      services.AddSwaggerGen(c =>
+            services.AddDbContext<TwitterContext>(options => options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddCors(options =>
       {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "TwitterTopicModeling", Version = "v1" });
+          options.AddPolicy(name: MyAllowSpecificOrigins,
+                            builder =>
+                            {
+                                builder.WithOrigins("*")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                            });
       });
+
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TwitterTopicModeling", Version = "v1" });
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TwitterTopicModeling v1"));
+
+            }
+
+            //app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
     }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-        app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TwitterTopicModeling v1"));
-
-      }
-
-      //app.UseHttpsRedirection();
-
-      app.UseRouting();
-
-      app.UseAuthorization();
-
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapControllers();
-      });
-    }
-  }
 }
