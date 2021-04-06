@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace TwitterTopicModeling.Migrations
@@ -64,7 +65,9 @@ namespace TwitterTopicModeling.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: true),
                     ReportName = table.Column<string>(type: "text", nullable: true),
-                    TwitterUserId = table.Column<int>(type: "integer", nullable: true)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    TwitterUserId = table.Column<int>(type: "integer", nullable: true),
+                    data = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +93,8 @@ namespace TwitterTopicModeling.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Reportid = table.Column<int>(type: "integer", nullable: true),
-                    TweetId = table.Column<long>(type: "bigint", nullable: true)
+                    TweetId = table.Column<long>(type: "bigint", nullable: true),
+                    flag = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -88,5 +88,18 @@ namespace TwitterTopicModeling.Controllers
 
         }
 
+        [HttpGet("{userId}")]
+        public async Task<List<Report>> GetReportList(int userId)
+        {
+
+            //ensuere twitterUser in database first
+            var ReportList = await TwitterContext.Report
+           .Where(x => x.User.Id == userId)
+           .ToListAsync();
+
+            return ReportList;
+
+        }
+
     }
 }

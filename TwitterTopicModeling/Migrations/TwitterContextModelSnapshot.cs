@@ -26,6 +26,9 @@ namespace TwitterTopicModeling.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("ReportName")
                         .HasColumnType("text");
 
@@ -34,6 +37,9 @@ namespace TwitterTopicModeling.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("data")
+                        .HasColumnType("jsonb");
 
                     b.HasKey("id");
 
@@ -56,6 +62,9 @@ namespace TwitterTopicModeling.Migrations
 
                     b.Property<long?>("TweetId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("flag")
+                        .HasColumnType("boolean");
 
                     b.HasKey("id");
 
