@@ -11,7 +11,7 @@ Here are the Requirment to run Twitter Topic Modeling API
 
 
 # Configuration 
-How to configure
+How to configure appsettomgs.Development.json file
 ```json
 {
   "Logging": {
@@ -23,13 +23,14 @@ How to configure
   },
 
   "Twitter": {
-    "BearerToken": "USE YOUR BEARER TOKEN HERE"
+    "BearerToken": "AAAAAAAAAAAAAAAAAAAAAI%2F6LwEAAAAAKtHX0CF%2Fp24Q0dymWesADYCfcvo%3DFMTJauHyd2q9UfXOWA78rlBSRTVCM9DCgXHIeeFu6eqtE0vE9c"
   },
 
     "ConnectionStrings": {
-      "DefaultConnection": "Host=localhost;Database=DATABASE NAME ;Username=USERNAME ;Password=Password"
-  }
-  
+      "DefaultConnection": "Host=localhost;Database=TwitterDB;Username=postgres;Password=Password"
+  },
+
+  "Rscript": "D:\\TwitterTopicModeling\\r\\TopicModelingScript.R"  
 }
 
 ```
