@@ -8,6 +8,7 @@ Here are the Requirment to run Twitter Topic Modeling API
 - [vscode](https://code.visualstudio.com/download)
 - [.net 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [enitity framework CLI](https://docs.microsoft.com/en-us/ef/core/cli/dotnet)
+- [R](https://www.r-project.org/)
 
 
 # Configuration 
@@ -23,17 +24,21 @@ How to configure appsettomgs.Development.json file
   },
 
   "Twitter": {
-    "BearerToken": "AAAAAAAAAAAAAAAAAAAAAI%2F6LwEAAAAAKtHX0CF%2Fp24Q0dymWesADYCfcvo%3DFMTJauHyd2q9UfXOWA78rlBSRTVCM9DCgXHIeeFu6eqtE0vE9c"
+    "BearerToken": "Twitter API Bearer Token"
   },
 
     "ConnectionStrings": {
-      "DefaultConnection": "Host=localhost;Database=TwitterDB;Username=postgres;Password=Password"
+      "DefaultConnection": "Your Database Connection String"
   },
 
-  "Rscript": "D:\\TwitterTopicModeling\\r\\TopicModelingScript.R"  
+  "Rscript": "Path to r file in repo",
+  "exeRpath": "PATH TO Rscript.exe on your machine"
 }
 
 ```
+
+How to configure R
+- go to Rprofile.site in the r files after downloading and set the CRAN mirror to http://cran.r-project.org
 
 How to use Dependency Injection in Entity Framework Core 
 - https://hackernoon.com/asp-net-core-how-to-use-dependency-injection-in-entity-framework-core-4388fc5c148b 
@@ -53,6 +58,8 @@ dotnet ef database update
 - [Json.net](https://github.com/JamesNK/Newtonsoft.Json)
 - [Enitiy FrameWork posgeSQL libary](https://www.npgsql.org/)
 - [Swagger](https://github.com/swagger-api/swagger-ui)
+- [Csvhelper](https://joshclose.github.io/CsvHelper/)
+- [Temp Directory package](https://gist.github.com/JoeHartzell/ab6ebd4af690c79e84c728f5da367dcc)
 
 # Commands 
 run any of the following in the terminal of vscode in the directory of API project
