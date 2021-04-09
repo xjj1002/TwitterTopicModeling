@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using TwitterTopicModeling.Database.Models;
 
 namespace TwitterTopicModeling.Migrations
 {
@@ -67,7 +69,7 @@ namespace TwitterTopicModeling.Migrations
                     ReportName = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     TwitterUserId = table.Column<int>(type: "integer", nullable: true),
-                    data = table.Column<string>(type: "jsonb", nullable: true)
+                    Topics = table.Column<IEnumerable<ReportTopic>>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
