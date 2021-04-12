@@ -14,6 +14,8 @@ namespace TwitterTopicModeling.Payloads
 
         public string ReportName { get; set; }
 
+        public Boolean malFlag {get; set;}
+
         public DateTimeOffset CreatedAt { get; set; }
 
         public TwitterUser TwitterUser { get; set; }

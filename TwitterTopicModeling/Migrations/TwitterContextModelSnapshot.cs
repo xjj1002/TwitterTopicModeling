@@ -43,6 +43,9 @@ namespace TwitterTopicModeling.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("malFlag")
+                        .HasColumnType("boolean");
+
                     b.HasKey("id");
 
                     b.HasIndex("TwitterUserId");
@@ -154,7 +157,7 @@ namespace TwitterTopicModeling.Migrations
             modelBuilder.Entity("TwitterTopicModeling.Database.Models.Report_tweet", b =>
                 {
                     b.HasOne("TwitterTopicModeling.Database.Models.Report", "Report")
-                        .WithMany()
+                        .WithMany("ReportTweets")
                         .HasForeignKey("Reportid");
 
                     b.HasOne("TwitterTopicModeling.Database.Models.Tweet", "Tweet")
@@ -173,6 +176,11 @@ namespace TwitterTopicModeling.Migrations
                         .HasForeignKey("TwitterUserId");
 
                     b.Navigation("TwitterUser");
+                });
+
+            modelBuilder.Entity("TwitterTopicModeling.Database.Models.Report", b =>
+                {
+                    b.Navigation("ReportTweets");
                 });
 #pragma warning restore 612, 618
         }

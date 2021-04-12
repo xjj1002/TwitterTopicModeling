@@ -14,6 +14,8 @@ namespace TwitterTopicModeling.Database.Models
 
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
+        public Boolean malFlag {get; set;} = false;
+
         public TwitterUser TwitterUser { get; set; }
 
         [Column(TypeName = "jsonb")]

@@ -43,6 +43,9 @@ namespace TwitterTopicModeling.Controllers
         //this path is to the location that the r exe file for runing a script in the backround it 
         public string exeRpath { get; }
 
+        //malicious words "words we are looking for"
+        string[] malWords = { "arrested" };
+
 
         public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext, IConfiguration configuration)
         {
@@ -130,6 +133,20 @@ namespace TwitterTopicModeling.Controllers
                 .Take(threshold)
                 .Select(x => x.Topic);
 
+            Boolean maliciousFlag = false;
+
+            foreach (var topic in topics)
+            {
+                foreach (var word in malWords)
+                {
+                    if (topic.Topic == word)
+                    {
+                        maliciousFlag = true;
+                    }
+                }
+
+            }
+
 
             //creating the list of report tweets using linq 
             var reporttweets = collectedTweets
@@ -151,6 +168,7 @@ namespace TwitterTopicModeling.Controllers
 
                 ReportName = $"{report.username}",
                 User = user,
+                malFlag = maliciousFlag,
                 TwitterUser = twitterUser,
                 ReportTweets = reporttweets,
                 Topics = topics,
@@ -166,7 +184,9 @@ namespace TwitterTopicModeling.Controllers
             {
                 id = currReport.id,
                 User = currReport.User,
+                malFlag = currReport.malFlag,
                 ReportName = currReport.ReportName,
+                CreatedAt = currReport.CreatedAt,
                 TwitterUser = currReport.TwitterUser,
                 Topics = currReport.Topics,
                 ReportTweets = currReport.ReportTweets
@@ -178,7 +198,7 @@ namespace TwitterTopicModeling.Controllers
 
 
 
-        [HttpGet("{userId}")]
+        [HttpGet("getReportList")]
         public async Task<List<GenerateReportDTO>> GetReportList([FromHeader(Name = "user-id")] int userId)
         {
 
@@ -190,6 +210,8 @@ namespace TwitterTopicModeling.Controllers
                id = report.id,
                User = report.User,
                ReportName = report.ReportName,
+               malFlag = report.malFlag,
+               CreatedAt = report.CreatedAt,
                TwitterUser = report.TwitterUser,
                Topics = report.Topics,
                ReportTweets = report.ReportTweets
