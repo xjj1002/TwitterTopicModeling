@@ -44,7 +44,7 @@ namespace TwitterTopicModeling.Controllers
         public string exeRpath { get; }
 
         //malicious words "words we are looking for"
-        string[] malWords = { "arrested" };
+        string[] malWords = { "arrested", "Murder"};
 
 
         public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext, IConfiguration configuration)
@@ -133,18 +133,16 @@ namespace TwitterTopicModeling.Controllers
                 .Take(threshold)
                 .Select(x => x.Topic);
 
-            Boolean maliciousFlag = false;
 
-            foreach (var topic in topics)
+            //checks to see if any of topics aer listed in the malicious words array
+            //if so it marks the report for malicious content
+            var maliciousFlag = false;
+            for(var x = 0; x < topics.Count && !maliciousFlag; x++)
             {
-                foreach (var word in malWords)
+                for(var y = 0; y < malWords.Length && !maliciousFlag; y++)
                 {
-                    if (topic.Topic == word)
-                    {
-                        maliciousFlag = true;
-                    }
+                    maliciousFlag = topics[x].Topic.Equals(malWords[y],StringComparison.OrdinalIgnoreCase);
                 }
-
             }
 
 
