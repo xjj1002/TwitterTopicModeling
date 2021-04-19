@@ -32,7 +32,7 @@ namespace TwitterTopicModeling.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class ReportController
+    public class ReportController : ControllerBase
     {
 
         public ILogger<TwitterUsersController> Logger { get; }
@@ -220,6 +220,35 @@ namespace TwitterTopicModeling.Controllers
 
             return ReportList;
 
+        }
+
+        [HttpGet("getReport/{reportId}")]
+        public async Task<IActionResult> getReport([FromHeader(Name = "user-id")] int userId, int reportId)
+        {
+            var report = await TwitterContext.Report
+           .Where(x => x.User.Id == userId && x.id == reportId)
+           .Select(report => new GenerateReportDTO
+           {
+               id = report.id,
+               User = report.User,
+               ReportName = report.ReportName,
+               malFlag = report.malFlag,
+               CreatedAt = report.CreatedAt,
+               TwitterUser = report.TwitterUser,
+               Topics = report.Topics,
+               ReportTweets = report.ReportTweets
+                    .Where(x => x.flag)
+                    .Select(x => x.Tweet).ToList()
+           })
+           .FirstOrDefaultAsync();
+
+
+            if(report is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(report);
         }
 
     }

@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using System;
+using TwitterTopicModeling.Utils;
 
 namespace TwitterTopicModeling.Twitter.Models
 {
@@ -12,5 +14,8 @@ namespace TwitterTopicModeling.Twitter.Models
 
         [JsonProperty("user")]
         public TwitterUser User { get; set; }
+
+        [JsonProperty("created_at")]
+        public string CreatedAt {get; set;}
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TwitterTopicModeling.Database.Models
 {
+    using System;
     public class Tweet
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,6 +12,8 @@ namespace TwitterTopicModeling.Database.Models
         public long ExternalId { get; set; }
         public string Text { get; set; }
         public TwitterUser TwitterUser { get; set; }
+
+        public string CreatedAt {get; set;}
         
 
     }

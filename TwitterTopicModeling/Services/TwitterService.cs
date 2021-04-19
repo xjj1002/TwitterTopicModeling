@@ -71,7 +71,8 @@ namespace TwitterTopicModeling.Services
 
                 ExternalId = tweet.Id,
                 Text = tweet.Text,
-                TwitterUser = DatabaseUser
+                TwitterUser = DatabaseUser,
+                CreatedAt = tweet.CreatedAt,
 
             });
 
@@ -121,7 +122,7 @@ namespace TwitterTopicModeling.Services
         //if not goes to twitter api to get it
         if (DatabaseUser is null)
         {
-            //if this fails what do i do?????????
+            
             Logger.LogInformation("Getting twitter users...");
             var result = await baseUrl
                 .AppendPathSegment("users/lookup.json")
@@ -134,7 +135,7 @@ namespace TwitterTopicModeling.Services
                 
                 var user = result.FirstOrDefault();
 
-            //if the twitter user exists then do this 
+            //if the twitter user exists then this creates a new twitterUser object and adds it to the database
             if (user is not null)
             {
                 var insertedUser = await TwitterContext.TwitterUsers
@@ -150,8 +151,8 @@ namespace TwitterTopicModeling.Services
         }
 
 
-    //Linq used here
-    return DatabaseUser;
+        //Linq used here
+        return DatabaseUser;
     }
   }
 }
