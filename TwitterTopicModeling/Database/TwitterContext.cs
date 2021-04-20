@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using TwitterTopicModeling.Database.Models;
 
+
+//This namespace and class are so theat entityFramework can address the database and its tables where it is imported and instaciated
 namespace TwitterTopicModeling.Database
 {
+
   public class TwitterContext : DbContext
   {
 

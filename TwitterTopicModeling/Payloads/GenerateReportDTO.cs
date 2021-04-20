@@ -1,3 +1,6 @@
+
+//this class is used to return a report from the database or on create
+//needed to trasfer data from database form to reponse 
 namespace TwitterTopicModeling.Payloads
 {
     using System.ComponentModel.DataAnnotations.Schema;

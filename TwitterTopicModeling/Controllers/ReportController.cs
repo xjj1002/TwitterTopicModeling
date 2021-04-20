@@ -1,6 +1,6 @@
 namespace TwitterTopicModeling.Controllers
 {
-
+    //system and microsoft packages
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,23 +11,20 @@ namespace TwitterTopicModeling.Controllers
     using System.Globalization;
     using System.Diagnostics;
     using Microsoft.Extensions.Configuration;
-
-
-
-    using Flurl;
-    using Flurl.Http;
-
     using System.Threading;
     using System.Collections;
-    using TwitterTopicModeling.Database;
-    using TwitterTopicModeling.Database.Models;
+
+    //csvHelper using 
+    //link to csv helper github //https://joshclose.github.io/CsvHelper/ 
     using CsvHelper;
 
-    // internal
+    // internal packages that we created
     using Services;
     using Microsoft.EntityFrameworkCore;
     using TwitterTopicModeling.Payloads;
     using TwitterTopicModeling.Utils;
+    using TwitterTopicModeling.Database;
+    using TwitterTopicModeling.Database.Models;
 
 
     [ApiController]
@@ -44,7 +41,7 @@ namespace TwitterTopicModeling.Controllers
         public string exeRpath { get; }
 
         //malicious words "words we are looking for"
-        string[] malWords = { "arrested", "Murder"};
+        string[] malWords = { "arrested", "Murder","thieves"};
 
 
         public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext, IConfiguration configuration)
@@ -125,10 +122,13 @@ namespace TwitterTopicModeling.Controllers
             using var reader = new StreamReader($"{tempDir.Name}\\output.csv");
             using var csvRead = new CsvReader(reader, CultureInfo.InvariantCulture);
 
+
+
+            //due to the massive number of topics that is returned we felt that we needed to remove some of the ones that were just used a single time 
+            //a single use could easily not be significant and makes the report and database messy if added
             var topics = csvRead.GetRecords<ReportTopic>().ToList();
-
             var threshold = (int)Math.Ceiling(topics.Count() * .1);
-
+            //this will be used to add the tweets with the top 1% into the report
             var flagTopics = topics
                 .Take(threshold)
                 .Select(x => x.Topic);
@@ -147,6 +147,7 @@ namespace TwitterTopicModeling.Controllers
 
 
             //creating the list of report tweets using linq 
+            //the select allows us to set up a report tweet for each one that containts a topic and them turn it into a list
             var reporttweets = collectedTweets
                 .Select(tweet =>
                 {
@@ -177,7 +178,8 @@ namespace TwitterTopicModeling.Controllers
             await TwitterContext.SaveChangesAsync();
 
 
-            //has to be a generateReportDTO because there are nested objects and the recusion causes cycle error
+            //has to be a generateReportDTO because there are nested objects and the recusion causes cycle error when returning the report back to the ;
+            //location that has requested it
             GenerateReportDTO rtnReport = new GenerateReportDTO
             {
                 id = currReport.id,
@@ -201,6 +203,7 @@ namespace TwitterTopicModeling.Controllers
         {
 
             //ensuere twitterUser in database first
+            //also we have to make it a the DTO to return it because of the object recursive issues 
             var ReportList = await TwitterContext.Report
            .Where(x => x.User.Id == userId)
            .Select(report => new GenerateReportDTO
@@ -222,6 +225,9 @@ namespace TwitterTopicModeling.Controllers
 
         }
 
+
+        //so this method is to return a single report. it returns an IActionResult so that we can return the correct not found error for the when there is no report
+        //still returns the report when found and also a "oK" reponse with it
         [HttpGet("getReport/{reportId}")]
         public async Task<IActionResult> getReport([FromHeader(Name = "user-id")] int userId, int reportId)
         {
@@ -242,12 +248,14 @@ namespace TwitterTopicModeling.Controllers
            })
            .FirstOrDefaultAsync();
 
-
+            //here is the check to see if the report we searched for exists or not
             if(report is null)
             {
                 return NotFound();
             }
 
+
+            //returns "ok" and the report if the check above is passed
             return Ok(report);
         }
 

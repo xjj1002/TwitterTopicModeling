@@ -38,6 +38,8 @@ namespace TwitterTopicModeling.Controllers
 
         }
 
+
+        //testing method used early on to just get a user that had been saved to the database by username
         [HttpGet("getUser/{username}")]
         public async Task<User> getUser(string UserName)
         {
@@ -50,6 +52,7 @@ namespace TwitterTopicModeling.Controllers
 
         }
 
+        //developer endpoint used to create a new user in the system cannot be used within application yet
         [HttpPost("createUser")]
         public async Task<User> createUser(UserDTO user)
         {
@@ -65,7 +68,9 @@ namespace TwitterTopicModeling.Controllers
             return insertedUser.Entity;
         }
 
-
+        //endpoint useed to verify the username and password that is being entered into the system
+        //it returns a IActionsResult object which gives us the ability to repurt a unauthroized message as the httpp reponse
+        //if it is valid it returns ok and the user that matched
         [HttpPost("login")]
         public async Task<IActionResult> login(UserDTO user)
         {

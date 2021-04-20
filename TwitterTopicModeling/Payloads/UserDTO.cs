@@ -1,3 +1,5 @@
+
+//data transfer object for createing user
 namespace TwitterTopicModeling.Payloads
 {
     public class UserDTO

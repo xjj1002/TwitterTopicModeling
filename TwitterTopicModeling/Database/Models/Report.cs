@@ -4,6 +4,9 @@ namespace TwitterTopicModeling.Database.Models
     using System;
     using CsvHelper.Configuration.Attributes;
     using System.Collections.Generic;
+
+    //this class is the main class for the application
+    //once all the data is gathered this class will be instaciated to save to the database
     public class Report
     {
         public int id { get; set; }
@@ -18,6 +21,8 @@ namespace TwitterTopicModeling.Database.Models
 
         public TwitterUser TwitterUser { get; set; }
 
+
+        //this jsonb is used to save this list of objects as json in the database
         [Column(TypeName = "jsonb")]
         public IEnumerable<ReportTopic> Topics { get; set; }
 
@@ -25,7 +30,8 @@ namespace TwitterTopicModeling.Database.Models
 
     }
 
-
+    //this is so that the report has an object for the topics that are being saved when it is generated
+    //will be used in the report class above
     public class ReportTopic
     {
         [Index(0)]

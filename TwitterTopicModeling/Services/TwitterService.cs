@@ -1,18 +1,25 @@
+
+//serviec for addressing the Twitter Develper API endpoints
 namespace TwitterTopicModeling.Services
 {
-  using Microsoft.Extensions.Logging;
-  using Microsoft.Extensions.Configuration;
-  using Flurl;
-  using Flurl.Http;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
 
-  using System.Threading.Tasks;
 
-  using System.Collections.Generic;
-  using System.Linq;
+    using System.Threading.Tasks;
+
+    using System.Collections.Generic;
+    using System.Linq;
 
     using TwitterTopicModeling.Database;
     using TwitterTopicModeling.Database.Models;
     using Microsoft.EntityFrameworkCore;
+
+
+    //using for Furl Http request wrapper
+    //linke to FLurl github https://github.com/tmenier/Flurl
+    using Flurl;
+    using Flurl.Http;
 
   public class TwitterService
   {
@@ -150,8 +157,6 @@ namespace TwitterTopicModeling.Services
             }
         }
 
-
-        //Linq used here
         return DatabaseUser;
     }
   }

@@ -6,9 +6,7 @@ namespace TwitterTopicModeling.Controllers
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-
-
-
+    using Microsoft.EntityFrameworkCore;
     using System.Threading;
     using System.Collections;
     using TwitterTopicModeling.Database;
@@ -18,7 +16,7 @@ namespace TwitterTopicModeling.Controllers
 
     // internal
     using Services;
-    using Microsoft.EntityFrameworkCore;
+    
 
     [ApiController]
     [Route("[controller]")]
@@ -27,10 +25,7 @@ namespace TwitterTopicModeling.Controllers
         public ILogger<TwitterUsersController> Logger { get; }
         public TwitterService TwitterService { get; }
         public TwitterContext TwitterContext { get; }
-
-
-        //         
-        //         
+    
         public TwitterUsersController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext)
         {
             Logger = logger;
@@ -53,15 +48,10 @@ namespace TwitterTopicModeling.Controllers
 
         //method for getting a user's timeline of tweets
         //count specifies how many
-        [HttpGet("{userName}/tweets")]
-        public async Task<List<Tweet>> getTweets(string userName, int count = 50)
+        [HttpGet("{userName}/tweets/{count}")]
+        public async Task<List<Tweet>> getTweets(string userName, int count)
         {
-
-            if (count > 100)
-            {
-                throw new Exception();
-            }
-
+            
             return await TwitterService.GetTweets(userName, count);
 
 
