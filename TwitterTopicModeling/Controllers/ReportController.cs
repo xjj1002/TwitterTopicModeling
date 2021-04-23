@@ -41,7 +41,7 @@ namespace TwitterTopicModeling.Controllers
         public string exeRpath { get; }
 
         //malicious words "words we are looking for"
-        string[] malWords = { "arrested", "Murder","thieves"};
+        string[] malWords = { "arrested", "Murder","thieves","bomb"};
 
 
         public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext, IConfiguration configuration)
@@ -66,12 +66,6 @@ namespace TwitterTopicModeling.Controllers
 
             //getting twitter user for report
             var twitterUser = await TwitterService.getTwitterUser(report.username);
-
-
-
-
-            //check to see if user is in our database or is an existing user in the Twitter API
-            await TwitterService.getTwitterUser(report.username);
 
             //getting the timeline for the user from the twitterAPI
             var collectedTweets = await TwitterService.GetTweets(report.username, report.count);

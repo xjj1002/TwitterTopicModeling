@@ -36,6 +36,8 @@ namespace TwitterTopicModeling
         {
             services.AddTransient<TwitterService>();
 
+
+            //this creates a connection for tha postgres database
             services.AddDbContext<TwitterContext>(options => options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddCors(options =>
