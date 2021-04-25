@@ -43,7 +43,6 @@ namespace TwitterTopicModeling.Controllers
         //malicious words "words we are looking for"
         string[] malWords = { "arrested", "Murder","thieves","bomb"};
 
-
         public ReportController(ILogger<TwitterUsersController> logger, TwitterService twitterService, TwitterContext twitterContext, IConfiguration configuration)
         {
             Logger = logger;
@@ -54,6 +53,8 @@ namespace TwitterTopicModeling.Controllers
         }
 
 
+        //this method is used to generate a report 
+        //method takes in a reportDTO that consist of a username and count. the user-id is the system user id and it is gathered from the header of the resquest
         [HttpPost("generateReport")]
         public async Task<object> generateReport([FromBody] ReportDTO report, [FromHeader(Name = "user-id")] int userId)
         {
@@ -99,7 +100,8 @@ namespace TwitterTopicModeling.Controllers
                 info.UseShellExecute = false;
                 info.CreateNoWindow = true;
 
-
+                //there is no useing for procces because we are able to create a single use of it by putting using in front of a var in ()
+                //the single use goes away once the proccess is terminated
                 using (var tempProcces = new Process())
                 {
                     tempProcces.StartInfo = info;
@@ -109,6 +111,7 @@ namespace TwitterTopicModeling.Controllers
             }
             catch (Exception exception)
             {
+                //this throws if there are any issues starting the procces as well as errors withing the r script
                 throw new Exception("running the r script failed" + result, exception);
             }
 
@@ -122,6 +125,7 @@ namespace TwitterTopicModeling.Controllers
             //a single use could easily not be significant and makes the report and database messy if added
             var topics = csvRead.GetRecords<ReportTopic>().ToList();
             var threshold = (int)Math.Ceiling(topics.Count() * .1);
+
             //this will be used to add the tweets with the top 1% into the report
             var flagTopics = topics
                 .Take(threshold)
@@ -130,6 +134,8 @@ namespace TwitterTopicModeling.Controllers
 
             //checks to see if any of topics aer listed in the malicious words array
             //if so it marks the report for malicious content
+            //TODO: this needs to be changed to look throuhg the tweets that we are actually saving on the report. o
+            //otherwise there is no way to know if the tweets shown on front end have the malicious content or ones that were pulled but not shown
             var maliciousFlag = false;
             for(var x = 0; x < topics.Count && !maliciousFlag; x++)
             {
@@ -168,6 +174,7 @@ namespace TwitterTopicModeling.Controllers
             };
 
 
+            //adding the report to the database
             await TwitterContext.Report.AddAsync(currReport);
             await TwitterContext.SaveChangesAsync();
 

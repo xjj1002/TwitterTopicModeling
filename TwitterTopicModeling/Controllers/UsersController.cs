@@ -27,6 +27,7 @@ namespace TwitterTopicModeling.Controllers
     {
         public ILogger<TwitterUsersController> Logger { get; }
 
+        //databse object
         public TwitterContext TwitterContext;
 
         public UsersController(ILogger<TwitterUsersController> logger, TwitterContext twitterContext)

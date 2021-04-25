@@ -47,7 +47,7 @@ namespace TwitterTopicModeling.Controllers
 
 
         //method for getting a user's timeline of tweets
-        //count specifies how many
+        //count specifies how many tweets the api is supposed to pull from the twitter api 
         [HttpGet("{userName}/tweets/{count}")]
         public async Task<List<Tweet>> getTweets(string userName, int count)
         {

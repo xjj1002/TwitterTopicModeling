@@ -46,6 +46,8 @@ namespace TwitterTopicModeling.Services
             .Where(x => x.ScreenName == ScreenName)
             .FirstOrDefaultAsync();
 
+        //if there is no user in the database we do not want the rest of the endpoint to run so it throws an error 
+        //if the user is null it may not exist. the getTwitterUser endpoint must run before this endpoint or it will error every time
         if(DatabaseUser == null)
         {
             throw new System.Exception(message:"User not found in database");

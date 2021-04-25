@@ -7,6 +7,8 @@ namespace TwitterTopicModeling.Twitter.Models
 {
     public class TwitterUser
     {
+
+        //property must be a long because the id that comes from the twitter api can be a large number
         [JsonProperty("id")]
         public long Id {get; set; }
         
