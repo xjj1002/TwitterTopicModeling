@@ -28,7 +28,7 @@ How to configure appsettings.Development.json file
   },
 
     "ConnectionStrings": {
-      "DefaultConnection": "Your Database Connection String"
+      "DefaultConnection": "Host=localhost;Database=NameOfYourDatabse;Username=postgres(nomrally posges if you are using it);Password= password that you setup in pg4admin"
   },
 
   "Rscript": "Path to r file in repo",
@@ -36,9 +36,15 @@ How to configure appsettings.Development.json file
 }
 
 ```
+You also need to configure R and postgeSW+QL
 
+How to configure postgreSQl
+- install prostgreSQL 
+- open pg4admin and it will ask you to enter a password make it simple it will be in your database string
 How to configure R
 - go to Rprofile.site in the r files after downloading and set the CRAN mirror to http://cran.r-project.org
+
+
 
 How to use Dependency Injection in Entity Framework Core 
 - https://hackernoon.com/asp-net-core-how-to-use-dependency-injection-in-entity-framework-core-4388fc5c148b 
@@ -62,7 +68,11 @@ dotnet ef database update
 - [Temp Directory package](https://gist.github.com/JoeHartzell/ab6ebd4af690c79e84c728f5da367dcc)
 
 # Commands 
+You will need to run this command to install any packages needed withing the project
+- `dotnet restore`
 run any of the following in the terminal of vscode in the directory of API project
 - `dotnet run`
-- `dotnet build`
+- `dotnet build` (just builds the project does not run it)
 - `dotnet watch run`
+
+Once the API is running you can use insomnia to hit the endpoints with the data required
