@@ -12,6 +12,7 @@ Here are the Requirment to run Twitter Topic Modeling API
 
 
 # Configuration 
+You will need to add and then a file named appsettings.Development.json file
 How to configure appsettings.Development.json file
 ```json
 {
